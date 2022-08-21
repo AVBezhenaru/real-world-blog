@@ -28,13 +28,16 @@
 
   &__header {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
   }
 
   &__title {
     font-size: 20px;
     line-height: 28px;
     color: $primary-color;
+    height: 55px;
+    overflow: hidden;
+    text-overflow: ellipsis;
     font-weight: 300;
     margin-right: 13px;
     margin-bottom: 6px;
@@ -47,6 +50,7 @@
     font-weight: 300;
     color: $text-color;
     margin-bottom: 6px;
+    margin-top: 3px;
   }
   
   &__like_btn {

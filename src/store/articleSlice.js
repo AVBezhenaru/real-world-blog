@@ -1,11 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { fetchGetArticles, fetchGetSingleArticle } from '../services/realWorldBlogService';
+import { fetchGetArticles } from '../services/realWorldBlogService';
 
 const articleSlice = createSlice({
   name: 'articles',
   initialState: {
-    articleList: [],
+    articleList: null,
     articleCount: 0,
     loading: false,
     error: false,
@@ -29,31 +29,4 @@ const articleSlice = createSlice({
   },
 });
 
-const singleArticleSlice = createSlice({
-  name: 'singleArticle',
-  initialState: {
-    article: null,
-    loading: false,
-    error: false,
-    errorMessage: '',
-  },
-  reducers: {},
-  extraReducers: {
-    [fetchGetSingleArticle.pending]: (state) => {
-      state.loading = true;
-      state.error = false;
-    },
-    [fetchGetSingleArticle.fulfilled]: (state, action) => {
-      state.article = action.payload.article;
-      state.loading = false;
-    },
-    [fetchGetSingleArticle.rejected]: (state, action) => {
-      state.error = true;
-      state.errorMessage = action.payload;
-    },
-  },
-});
-
-const articleReducer = articleSlice.reducer;
-const singleArticleReducer = singleArticleSlice.reducer;
-export { articleReducer, singleArticleReducer };
+export default articleSlice.reducer;
