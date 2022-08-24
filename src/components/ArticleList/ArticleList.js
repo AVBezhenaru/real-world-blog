@@ -1,11 +1,11 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BeatLoader } from 'react-spinners';
 import { format } from 'date-fns';
 import Pagination from '@mui/material/Pagination';
 import { Link } from 'react-router-dom';
 
-import { fetchGetArticles } from '../../services/realWorldBlogService';
+import { fetchGetArticles, fetchFavoriteArticle, fetchUnFavoriteArticle } from '../../services/realWorldBlogService';
 import Error from '../Error/Error';
 
 import style from './ArticleList.module.scss';
@@ -16,10 +16,14 @@ const ArticleList = () => {
   const articleCount = useSelector((state) => state.articles.articleCount);
   const loading = useSelector((state) => state.articles.loading);
   const error = useSelector((state) => state.articles.errorMessage);
+  const loadFavorite = useSelector((state) => state.singleArticle.loading);
+  const token = localStorage.getItem('token');
+
+  const [pageNumber, setPageNumber] = useState(0);
 
   useEffect(() => {
-    dispatch(fetchGetArticles(0));
-  }, [dispatch]);
+    !loadFavorite && dispatch(fetchGetArticles(pageNumber));
+  }, [dispatch, loadFavorite, pageNumber]);
 
   return (
     <Fragment>
@@ -27,7 +31,6 @@ const ArticleList = () => {
         <Error message={error.message} />
       ) : (
         <Fragment>
-          {' '}
           {articles === null ? (
             <BeatLoader cssOverride={{ textAlign: 'center' }} color={'#1890FF'} />
           ) : (
@@ -41,25 +44,36 @@ const ArticleList = () => {
                           <Link to={`/articles/${article.slug}`} className={style.article__title}>
                             {article.title}
                           </Link>
-                          <button className={style.article__like_btn}>&#9825;</button>
+                          <button
+                            className={style.article__like_btn}
+                            onClick={() => {
+                              article.favorited
+                                ? token && dispatch(fetchUnFavoriteArticle(article.slug))
+                                : token && dispatch(fetchFavoriteArticle(article.slug));
+                            }}
+                          >
+                            <svg className={article.favorited ? style.active : style.like} viewBox="0 0 100 100">
+                              <path
+                                className={style.heart}
+                                d="M 90,40 a 20 20 0 1 0 -40,-25 a 20 20 0 1 0 -40,25 l 40,50  z"
+                              />
+                            </svg>
+                          </button>
                           <h3 className={style.article__likes}>{article.favoritesCount}</h3>
                         </div>
                         <ul className={style.article__tags}>
                           {article.tagList !== null && article.tagList.length
                             ? /* eslint-disable */
-                              article.tagList.map((tag) => {
+                              article.tagList.map((tag, index) => {
                                 return (
-                                  <li
-                                    key={`${new Date().getMilliseconds()} ${tag}`}
-                                    className={style.article__tags_item}
-                                  >
+                                  <li key={index} className={style.article__tags_item}>
                                     {tag}
                                   </li>
                                 );
                               })
                             : ''}
                         </ul>
-                        <p className={style.article__text}>{article.body}</p>
+                        <p className={style.article__text}>{article.description}</p>
                       </div>
                       <div className={style.article__right}>
                         <div className={style.article__info}>
@@ -82,7 +96,7 @@ const ArticleList = () => {
                   count={Math.ceil(articleCount / 5)}
                   color="primary"
                   onChange={(_, page) => {
-                    dispatch(fetchGetArticles((page - 1) * 5));
+                    setPageNumber((page - 1) * 5);
                   }}
                 />
               </div>

@@ -9,7 +9,9 @@ const UserProfile = ({ username, logOutFunc }) => {
   const avatar = useSelector((state) => state.user.img);
   return (
     <div className={style.user_profile}>
-      <button className={style.create__article}>Create article</button>
+      <Link to="/new-article" className={style.create__article}>
+        Create article
+      </Link>
       <Link to="/profile" className={style.user__info}>
         <h2 className={style.user__name}>{username}</h2>
         <div className={style.user__img}>

@@ -2,6 +2,7 @@ import React, { useEffect, Fragment } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { BeatLoader } from 'react-spinners';
 
 import Error from '../Error/Error';
 import { fetchLoginUser } from '../../services/realWorldBlogService';
@@ -11,8 +12,9 @@ import style from './Form.module.scss';
 const SignIn = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const error = useSelector((state) => state.user.error);
+  const error = useSelector((state) => state.user.errorMessage);
   const username = useSelector((state) => state.user.username);
+  const loading = useSelector((state) => state.user.loading);
 
   const {
     register,
@@ -42,6 +44,7 @@ const SignIn = () => {
         <Error message={error.message} />
       ) : (
         <div>
+          <div>{loading && <BeatLoader cssOverride={{ textAlign: 'center' }} color={'#1890FF'} />}</div>
           <form onSubmit={handleSubmit(onSubmit)}>
             <h1>Sign In</h1>
 

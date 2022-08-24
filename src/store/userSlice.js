@@ -37,6 +37,7 @@ const userSlice = createSlice({
     },
     [fetchLoginUser.rejected]: (state, action) => {
       state.error = true;
+      state.loading = false;
       state.errorMessage = action.payload;
     },
 
@@ -52,6 +53,7 @@ const userSlice = createSlice({
     },
     [fetchGetCurrentUser.rejected]: (state, action) => {
       state.error = true;
+      state.loading = false;
       state.errorMessage = action.payload;
     },
 
@@ -66,6 +68,7 @@ const userSlice = createSlice({
     },
     [fetchRegisterUser.rejected]: (state, action) => {
       state.error = true;
+      state.loading = false;
       state.errorMessage = action.payload;
     },
 
@@ -81,6 +84,7 @@ const userSlice = createSlice({
     },
     [fetchUpdateCurrentUser.rejected]: (state, action) => {
       state.error = true;
+      state.loading = false;
       state.errorMessage = action.payload;
     },
   },

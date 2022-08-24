@@ -6,7 +6,12 @@ export const fetchGetArticles = createAsyncThunk(
   'articles/fetchGetArticles',
   async function (offset, { rejectWithValue }) {
     try {
-      const response = await fetch(`${BASE_URL}articles?limit=5&offset=${offset}`);
+      const response = await fetch(`${BASE_URL}articles?limit=5&offset=${offset}`, {
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8',
+          Authorization: `Token ${localStorage.getItem('token')}`,
+        },
+      });
 
       if (!response.ok) {
         throw new Error('Упс, чет не так))');
@@ -29,7 +34,12 @@ export const fetchGetSingleArticle = createAsyncThunk(
   'singleArticle/fetchGetSingleArticle',
   async function (slug = 1, { rejectWithValue }) {
     try {
-      const response = await fetch(`${BASE_URL}articles/${slug}`);
+      const response = await fetch(`${BASE_URL}articles/${slug}`, {
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8',
+          Authorization: `Token ${localStorage.getItem('token')}`,
+        },
+      });
 
       if (!response.ok) {
         throw new Error('Упс, чет не так))');
@@ -44,6 +54,130 @@ export const fetchGetSingleArticle = createAsyncThunk(
         err.message = 'Oops, something went wrong, please check your internet connection';
       }
       return rejectWithValue(err.message);
+    }
+  }
+);
+
+export const fetchAddArticle = createAsyncThunk(
+  'singleArticle/fetchAddArticle',
+  async function ([article], { rejectWithValue }) {
+    try {
+      const response = await fetch(`${BASE_URL}articles`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8',
+          Authorization: `Token ${localStorage.getItem('token')}`,
+        },
+        body: JSON.stringify(article),
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        return rejectWithValue(data.errors);
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (e) {
+      return rejectWithValue(e);
+    }
+  }
+);
+
+export const fetchUpdateArticle = createAsyncThunk(
+  'singleArticle/fetchUpdateArticle',
+  async function ([article, slug], { rejectWithValue }) {
+    try {
+      const response = await fetch(`${BASE_URL}articles/${slug}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8',
+          Authorization: `Token ${localStorage.getItem('token')}`,
+        },
+        body: JSON.stringify(article),
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        return rejectWithValue(data.errors);
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (e) {
+      return rejectWithValue(e);
+    }
+  }
+);
+
+export const fetchDeleteArticle = createAsyncThunk(
+  'singleArticle/fetchDeleteArticle',
+  async function (slug, { rejectWithValue }) {
+    try {
+      const response = await fetch(`${BASE_URL}articles/${slug}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8',
+          Authorization: `Token ${localStorage.getItem('token')}`,
+        },
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        return rejectWithValue(data.errors);
+      }
+    } catch (e) {
+      return rejectWithValue(e);
+    }
+  }
+);
+
+export const fetchFavoriteArticle = createAsyncThunk(
+  'singleArticle/fetchFavoriteArticle',
+  async function (slug, { rejectWithValue }) {
+    try {
+      const response = await fetch(`${BASE_URL}articles/${slug}/favorite`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8',
+          Authorization: `Token ${localStorage.getItem('token')}`,
+        },
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        return rejectWithValue(data.errors);
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (e) {
+      return rejectWithValue(e);
+    }
+  }
+);
+
+export const fetchUnFavoriteArticle = createAsyncThunk(
+  'singleArticle/fetchUnFavoriteArticle',
+  async function (slug, { rejectWithValue }) {
+    try {
+      const response = await fetch(`${BASE_URL}articles/${slug}/favorite`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8',
+          Authorization: `Token ${localStorage.getItem('token')}`,
+        },
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        return rejectWithValue(data.errors);
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (e) {
+      return rejectWithValue(e);
     }
   }
 );

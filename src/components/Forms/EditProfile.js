@@ -1,6 +1,7 @@
 import React, { Fragment, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
+import { BeatLoader } from 'react-spinners';
 
 import { fetchUpdateCurrentUser } from '../../services/realWorldBlogService';
 import Error from '../Error/Error';
@@ -10,6 +11,7 @@ import style from './Form.module.scss';
 const EditProfile = () => {
   const dispatch = useDispatch();
   const error = useSelector((state) => state.user.errorMessage);
+  const loading = useSelector((state) => state.user.loading);
 
   const {
     register,
@@ -49,6 +51,7 @@ const EditProfile = () => {
         <Error message={error.message} />
       ) : (
         <div>
+          <div>{loading && <BeatLoader cssOverride={{ textAlign: 'center' }} color={'#1890FF'} />}</div>
           <form onSubmit={handleSubmit(onSubmit)}>
             <h1>Edit Profile</h1>
             <label>

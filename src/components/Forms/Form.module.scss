@@ -10,6 +10,14 @@ form {
   border-radius: 6px;
 }
 
+.article__form {
+  max-width: 938px;
+}
+
+.send__btn {
+  width: 319px;
+}
+
 h1 {
   font-weight: 500;
   font-size: 20px;
@@ -40,6 +48,7 @@ b {
   color: #1890FF;
   text-decoration: none;
   font-style: normal;
+
 }
 
 .checkBox__label {
@@ -68,13 +77,85 @@ input {
   display: block;
   box-sizing: border-box;
   width: 100%;
-  max-width: 320px;
   border-radius: 4px;
   border: 1px solid #D9D9D9;
   padding: 10px 15px;
   margin-bottom: 10px;
   font-size: 16px;
   color: $text-color;
+
+  &::placeholder {
+    font-weight: 200;
+    color: $text-color-secondary;
+    vertical-align: top;
+  }
+}
+
+textarea {
+  width: 100%;
+  border-radius: 4px;
+  border: 1px solid #D9D9D9;
+  padding: 10px 15px;
+  margin-bottom: 10px;
+  font-size: 16px;
+  color: $text-color;
+  resize: none;
+
+  &::placeholder {
+    font-weight: 200;
+    color: $text-color-secondary;
+    vertical-align: top;
+  }
+}
+
+.tags {
+  input {
+    max-width: 300px;
+    flex-grow: 1;
+  }
+
+  &__wrap {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.tags__button_add {
+  max-width: 136px;
+  margin-left: 15px;
+  color: $primary-color;
+  border: 1px solid $primary-color;
+  border-radius: 4px;
+  padding: 7px 16px;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 300;
+  background-color: transparent;
+  margin-bottom: 10px;
+  cursor: pointer;
+
+  &:active {
+    transform: translateY(2px);
+  }
+}
+
+.tags__button_delete {
+  max-width: 136px;
+  margin-left: 15px;
+  color: $error-color;
+  border: 1px solid $error-color;
+  border-radius: 4px;
+  padding: 7px 20px;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 300;
+  background-color: transparent;
+  margin-bottom: 10px;
+  cursor: pointer;
+
+  &:active {
+    transform: translateY(2px);
+  }
 }
 
 label {

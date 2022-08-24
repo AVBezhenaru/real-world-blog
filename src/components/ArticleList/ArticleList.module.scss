@@ -60,7 +60,11 @@
     border: none;
     background: #FFFFFF;
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
+
 
   &__tags {
     margin-bottom: 6px;
@@ -124,3 +128,32 @@
     font-size: 32px;
   }
 };
+
+svg.like {
+
+  .heart  {
+    fill: transparent;
+    stroke: $error-color;
+    stroke-width:6;
+  }
+  .strahlen {
+    stroke:$error-color;
+    stroke-width:22;
+    stroke-dasharray:20 78;
+    stroke-dashoffset:95;
+    opacity:0;
+  }
+}
+svg.active {
+
+  .heart  {
+    fill: $error-color;
+    stroke: $error-color;
+    transition: all .3s ease;
+  }
+}
+
+svg {
+  overflow:visible;
+  width:16px;
+}

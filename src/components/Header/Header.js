@@ -13,7 +13,7 @@ const Header = () => {
   const dispatch = useDispatch();
 
   const token = localStorage.getItem('token');
-  token && !username && dispatch(fetchGetCurrentUser(token));
+  token && !username && dispatch(fetchGetCurrentUser());
 
   const logOutFunc = () => {
     localStorage.clear();
