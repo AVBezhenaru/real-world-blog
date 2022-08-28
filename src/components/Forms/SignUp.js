@@ -23,8 +23,9 @@ const SignUp = () => {
     handleSubmit,
     watch,
     setError,
+    clearErrors,
   } = useForm({
-    mode: 'onChange',
+    mode: 'onBlur',
   });
 
   const onSubmit = (date) => {
@@ -33,6 +34,7 @@ const SignUp = () => {
       email: date.email,
       password: date.password,
     };
+    clearErrors();
     dispatch(fetchRegisterUser({ user }));
   };
 

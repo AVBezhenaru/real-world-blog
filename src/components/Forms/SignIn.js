@@ -20,8 +20,9 @@ const SignIn = () => {
     register,
     formState: { errors, isValid },
     handleSubmit,
+    clearErrors,
   } = useForm({
-    mode: 'all',
+    mode: 'onBlur',
   });
 
   const onSubmit = (date) => {
@@ -29,6 +30,7 @@ const SignIn = () => {
       email: date.email,
       password: date.password,
     };
+    clearErrors();
     dispatch(fetchLoginUser({ user }));
   };
 
@@ -46,6 +48,7 @@ const SignIn = () => {
         <div>
           <div>{loading && <BeatLoader cssOverride={{ textAlign: 'center' }} color={'#1890FF'} />}</div>
           <form onSubmit={handleSubmit(onSubmit)}>
+            {error && <Error message={error.message} />}
             <h1>Sign In</h1>
 
             <label>

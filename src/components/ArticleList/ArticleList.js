@@ -1,10 +1,11 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect, memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BeatLoader } from 'react-spinners';
 import { format } from 'date-fns';
 import Pagination from '@mui/material/Pagination';
 import { Link } from 'react-router-dom';
 
+import { setPage } from '../../store/articleSlice';
 import { fetchGetArticles, fetchFavoriteArticle, fetchUnFavoriteArticle } from '../../services/realWorldBlogService';
 import Error from '../Error/Error';
 
@@ -15,20 +16,20 @@ const ArticleList = () => {
   const articles = useSelector((state) => state.articles.articleList);
   const articleCount = useSelector((state) => state.articles.articleCount);
   const loading = useSelector((state) => state.articles.loading);
-  const error = useSelector((state) => state.articles.errorMessage);
+  const error = useSelector((state) => state.articles.error);
+  const errorMessage = useSelector((state) => state.articles.errorMessage);
   const loadFavorite = useSelector((state) => state.singleArticle.loading);
+  const pageNumber = useSelector((state) => state.articles.pageNumber);
   const token = localStorage.getItem('token');
 
-  const [pageNumber, setPageNumber] = useState(0);
-
   useEffect(() => {
-    !loadFavorite && dispatch(fetchGetArticles(pageNumber));
-  }, [dispatch, loadFavorite, pageNumber]);
+    !loadFavorite && dispatch(fetchGetArticles((pageNumber - 1) * 5));
+  }, [pageNumber, loadFavorite]);
 
   return (
     <Fragment>
       {error ? (
-        <Error message={error.message} />
+        <Error message={errorMessage.message} />
       ) : (
         <Fragment>
           {articles === null ? (
@@ -45,6 +46,7 @@ const ArticleList = () => {
                             {article.title}
                           </Link>
                           <button
+                            disabled={loadFavorite}
                             className={style.article__like_btn}
                             onClick={() => {
                               article.favorited
@@ -92,11 +94,12 @@ const ArticleList = () => {
               </ul>
               <div className={style.article__pagination}>
                 <Pagination
+                  defaultPage={pageNumber}
                   shape="rounded"
                   count={Math.ceil(articleCount / 5)}
                   color="primary"
                   onChange={(_, page) => {
-                    setPageNumber((page - 1) * 5);
+                    dispatch(setPage(page));
                   }}
                 />
               </div>
@@ -109,4 +112,4 @@ const ArticleList = () => {
   );
 };
 
-export default ArticleList;
+export default memo(ArticleList);

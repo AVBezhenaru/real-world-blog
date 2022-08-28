@@ -21,6 +21,7 @@ const singleArticleSlice = createSlice({
   extraReducers: {
     [fetchGetSingleArticle.pending]: (state) => {
       state.loading = true;
+      state.article = null;
       state.error = false;
     },
     [fetchGetSingleArticle.fulfilled]: (state, action) => {

@@ -2,6 +2,7 @@ import React, { Fragment, useEffect, useState } from 'react';
 import { format } from 'date-fns';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import { BeatLoader } from 'react-spinners';
 import Markdown from 'markdown-to-jsx';
 
 import {
@@ -18,6 +19,7 @@ const Article = () => {
   const navigate = useNavigate();
   let { slug } = useParams();
   const article = useSelector((state) => state.singleArticle.article);
+  const loading = useSelector((state) => state.singleArticle.loading);
   const username = useSelector((state) => state.user.username);
   const error = useSelector((state) => state.singleArticle.errorMessage);
   const token = localStorage.getItem('token');
@@ -33,6 +35,11 @@ const Article = () => {
         <Error message={error} />
       ) : (
         <Fragment>
+          {loading ? (
+            <BeatLoader cssOverride={{ textAlign: 'center' }} color={'#1890FF'} />
+          ) : (
+            <div style={{ height: '25px' }}></div>
+          )}
           {article !== null && (
             <div key={article.slug} className={style.article}>
               <div className={style.article__header}>
@@ -41,6 +48,7 @@ const Article = () => {
                     {article.title}
                   </Link>
                   <button
+                    disabled={loading}
                     className={style.article__like_btn}
                     onClick={() => {
                       article.favorited

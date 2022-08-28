@@ -34,9 +34,10 @@ const ArticleForm = ({ name, articleProps, fetchArticleData, slug }) => {
   const {
     register,
     formState: { errors, isValid },
+    clearErrors,
     handleSubmit,
   } = useForm({
-    mode: 'all',
+    mode: 'onBlur',
   });
 
   const onSubmit = (date) => {
@@ -48,7 +49,10 @@ const ArticleForm = ({ name, articleProps, fetchArticleData, slug }) => {
         tagList: tags,
       },
     };
-    dispatch(fetchArticleData([articleData, slug])).then((data) => data && navigate('/articles'));
+    clearErrors();
+    dispatch(fetchArticleData([articleData, slug])).then((data) => {
+      data && navigate(`/articles/${data.payload.article.slug}`);
+    });
   };
 
   return (

@@ -18,8 +18,9 @@ const EditProfile = () => {
     formState: { errors, isValid },
     handleSubmit,
     setError,
+    clearErrors,
   } = useForm({
-    mode: 'onChange',
+    mode: 'onBlur',
   });
 
   const onSubmit = (date) => {
@@ -29,6 +30,7 @@ const EditProfile = () => {
       password: date.password,
       image: date.url,
     };
+    clearErrors();
     dispatch(fetchUpdateCurrentUser({ user }));
   };
 

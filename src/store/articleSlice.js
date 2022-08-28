@@ -10,8 +10,13 @@ const articleSlice = createSlice({
     loading: false,
     error: false,
     errorMessage: '',
+    pageNumber: 1,
   },
-  reducers: {},
+  reducers: {
+    setPage(state, action) {
+      state.pageNumber = action.payload;
+    },
+  },
   extraReducers: {
     [fetchGetArticles.pending]: (state) => {
       state.loading = true;
@@ -23,10 +28,11 @@ const articleSlice = createSlice({
       state.articleCount = action.payload.articlesCount;
     },
     [fetchGetArticles.rejected]: (state, action) => {
+      state.loading = false;
       state.error = true;
       state.errorMessage = action.payload;
     },
   },
 });
-
+export const { setPage } = articleSlice.actions;
 export default articleSlice.reducer;
