@@ -1,11 +1,12 @@
 import React, { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import style from './Form.module.scss';
 
 const ArticleForm = ({ name, articleProps, fetchArticleData, slug }) => {
+  const loading = useSelector((state) => state.singleArticle.loading);
   const inputRef = useRef(null);
   const [tags, setTags] = useState(articleProps ? articleProps.tagList : []);
   const dispatch = useDispatch();
@@ -33,7 +34,7 @@ const ArticleForm = ({ name, articleProps, fetchArticleData, slug }) => {
 
   const {
     register,
-    formState: { errors, isValid },
+    formState: { errors },
     clearErrors,
     handleSubmit,
   } = useForm({
@@ -46,7 +47,7 @@ const ArticleForm = ({ name, articleProps, fetchArticleData, slug }) => {
         title: date.title,
         description: date.description,
         body: date.text,
-        tagList: tags,
+        tagList: !inputRef.current.value ? tags : [...tags, inputRef.current.value],
       },
     };
     clearErrors();
@@ -109,7 +110,7 @@ const ArticleForm = ({ name, articleProps, fetchArticleData, slug }) => {
             </button>
           </div>
         </label>
-        <input type="submit" value="Send" className={style.send__btn} disabled={!isValid} />
+        <input type="submit" value="Send" className={style.send__btn} disabled={loading} />
       </form>
     </div>
   );

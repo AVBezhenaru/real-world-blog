@@ -18,7 +18,7 @@ const SignIn = () => {
 
   const {
     register,
-    formState: { errors, isValid },
+    formState: { errors },
     handleSubmit,
     clearErrors,
   } = useForm({
@@ -48,7 +48,6 @@ const SignIn = () => {
         <div>
           <div>{loading && <BeatLoader cssOverride={{ textAlign: 'center' }} color={'#1890FF'} />}</div>
           <form onSubmit={handleSubmit(onSubmit)}>
-            {error && <Error message={error.message} />}
             <h1>Sign In</h1>
 
             <label>
@@ -85,7 +84,7 @@ const SignIn = () => {
               {errors.password && <p>{errors.password.message}</p>}
             </label>
             {error && <div className={style.error__message}>{'Email or password is invalid'}</div>}
-            <input type="submit" value="Login" disabled={!isValid} />
+            <input type="submit" value="Login" disabled={loading} />
             <b>
               Don’t have an account?
               <Link to="/sign-up" className={style.form__link}>

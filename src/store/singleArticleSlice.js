@@ -30,7 +30,7 @@ const singleArticleSlice = createSlice({
     },
     [fetchGetSingleArticle.rejected]: (state, action) => {
       state.error = true;
-      state.loading = true;
+      state.loading = false;
       state.errorMessage = action.payload;
     },
 
@@ -44,7 +44,7 @@ const singleArticleSlice = createSlice({
     },
     [fetchAddArticle.rejected]: (state, action) => {
       state.error = true;
-      state.loading = true;
+      state.loading = false;
       state.errorMessage = action.payload;
     },
 
@@ -58,7 +58,7 @@ const singleArticleSlice = createSlice({
     },
     [fetchUpdateArticle.rejected]: (state, action) => {
       state.error = true;
-      state.loading = true;
+      state.loading = false;
       state.errorMessage = action.payload;
     },
 
@@ -86,7 +86,7 @@ const singleArticleSlice = createSlice({
     },
     [fetchFavoriteArticle.rejected]: (state, action) => {
       state.error = true;
-      state.loading = true;
+      state.loading = false;
       state.errorMessage = action.payload;
     },
 
@@ -100,7 +100,7 @@ const singleArticleSlice = createSlice({
     },
     [fetchUnFavoriteArticle.rejected]: (state, action) => {
       state.error = true;
-      state.loading = true;
+      state.loading = false;
       state.errorMessage = action.payload;
     },
   },

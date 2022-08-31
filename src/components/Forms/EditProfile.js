@@ -15,7 +15,7 @@ const EditProfile = () => {
 
   const {
     register,
-    formState: { errors, isValid },
+    formState: { errors },
     handleSubmit,
     setError,
     clearErrors,
@@ -126,7 +126,7 @@ const EditProfile = () => {
               {errors?.url && <p>{errors.url.message}</p>}
             </label>
 
-            <input type="submit" value="Save" disabled={!isValid} />
+            <input type="submit" value="Save" disabled={loading} />
           </form>
         </div>
       )}

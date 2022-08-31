@@ -19,7 +19,7 @@ const SignUp = () => {
 
   const {
     register,
-    formState: { errors, isValid },
+    formState: { errors },
     handleSubmit,
     watch,
     setError,
@@ -140,7 +140,7 @@ const SignUp = () => {
               I agree to the processing of my personal information
             </label>
 
-            <input type="submit" value="Create" disabled={!isValid} />
+            <input type="submit" value="Create" disabled={loading} />
             <b>
               Already have an account?{' '}
               <Link to="/sign-in" className={style.form__link}>

@@ -94,10 +94,11 @@ const ArticleList = () => {
               </ul>
               <div className={style.article__pagination}>
                 <Pagination
-                  defaultPage={pageNumber}
+                  page={pageNumber}
                   shape="rounded"
                   count={Math.ceil(articleCount / 5)}
                   color="primary"
+                  disabled={loading}
                   onChange={(_, page) => {
                     dispatch(setPage(page));
                   }}
